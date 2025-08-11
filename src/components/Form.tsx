@@ -27,14 +27,30 @@ export default function Form() {
     });
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // if (!isValidActivity()) return;
+    // // Aquí puedes manejar el envío del formulario, como agregar la actividad a una lista
+    console.log("Actividad agregada:", activity);
+    // // Resetear el formulario
+    // setActivity({
+    //   category: 1,
+    //   name: "",
+    //   calories: 0,
+    // });
+  };
+
   const isValidActivity = () => {
     const { name, calories } = activity;
-    console.log(name.trim() !== "" && calories > 0);
+    // console.log(name.trim() !== "" && calories > 0);
     return name.trim() !== "" && calories > 0;
   };
 
   return (
-    <form className=" space-y-5 bg-white p-10 rounded-lg shadow">
+    <form
+      className=" space-y-5 bg-white p-10 rounded-lg shadow"
+      onSubmit={handleSubmit}
+    >
       <div className=" grid grid-cols-1 gap-3">
         <label htmlFor="category" className=" font-bold">
           Categoria:
@@ -83,7 +99,7 @@ export default function Form() {
       <input
         type="submit"
         className=" bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer rounded-lg transition-colors disabled:opacity-10"
-        value="Guardar Comida o Ejercicio"
+        value={activity.category === 1 ? "Agregar Comida" : "Agregar Ejercicio"}
         disabled={!isValidActivity()}
       />
     </form>
