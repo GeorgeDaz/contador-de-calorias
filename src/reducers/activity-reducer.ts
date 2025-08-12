@@ -18,10 +18,10 @@ export const activityReducer = (
   action: ActivityActions
 ) => {
   if (action.type === "ADD_ACTIVITY") {
-    // return {
-    //     ...state,
-    //     activities: [...state.activities, action.payload.newActivity],
-    // };
-    console.log("Reducer received new activity:", action.payload.newActivity);
+    return {
+      ...state,
+      activities: [...state.activities, action.payload.newActivity],
+    };
   }
+  return state;
 };

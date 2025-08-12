@@ -1,13 +1,20 @@
 import { categories } from "../data/categories";
 import { useState } from "react";
 import type { Activity } from "../types";
+import type { ActivityActions } from "../reducers/activity-reducer";
 
-export default function Form() {
-  const [activity, setActivity] = useState<Activity>({
-    category: 1, // Default to "Comida"
-    name: "",
-    calories: 0, // Default to 0 calories
-  });
+type FormProps = {
+  dispatch: React.Dispatch<ActivityActions>;
+};
+
+const initialState: Activity = {
+  category: 1, // Default to "Comida"
+  name: "",
+  calories: 0, // Default to 0 calories
+};
+
+export default function Form({ dispatch }: FormProps) {
+  const [activity, setActivity] = useState<Activity>(initialState);
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>
@@ -31,13 +38,12 @@ export default function Form() {
     e.preventDefault();
     // if (!isValidActivity()) return;
     // // Aquí puedes manejar el envío del formulario, como agregar la actividad a una lista
-    console.log("Actividad agregada:", activity);
-    // // Resetear el formulario
-    // setActivity({
-    //   category: 1,
-    //   name: "",
-    //   calories: 0,
-    // });
+    dispatch({
+      type: "ADD_ACTIVITY",
+      payload: { newActivity: activity },
+    });
+    // Resetear el formulario
+    setActivity(initialState);
   };
 
   const isValidActivity = () => {
