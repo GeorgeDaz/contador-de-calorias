@@ -1,4 +1,6 @@
 import { categories } from "../data/categories";
+import { v4 as uuidv4 } from "uuid";
+// si no aparecen los types de uuid hacer npm install --save-dev @types/uuid
 import { useState } from "react";
 import type { Activity } from "../types";
 import type { ActivityActions } from "../reducers/activity-reducer";
@@ -8,6 +10,7 @@ type FormProps = {
 };
 
 const initialState: Activity = {
+  id: uuidv4(),
   category: 1, // Default to "Comida"
   name: "",
   calories: 0, // Default to 0 calories
@@ -43,7 +46,7 @@ export default function Form({ dispatch }: FormProps) {
       payload: { newActivity: activity },
     });
     // Resetear el formulario
-    setActivity(initialState);
+    setActivity({ ...initialState, id: uuidv4() }); // Generar un nuevo ID para la próxima actividad
   };
 
   const isValidActivity = () => {
