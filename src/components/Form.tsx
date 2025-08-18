@@ -1,12 +1,16 @@
 import { categories } from "../data/categories";
 import { v4 as uuidv4 } from "uuid";
 // si no aparecen los types de uuid hacer npm install --save-dev @types/uuid
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Activity } from "../types";
-import type { ActivityActions } from "../reducers/activity-reducer";
+import type {
+  ActivityActions,
+  ActivityState,
+} from "../reducers/activity-reducer";
 
 type FormProps = {
   dispatch: React.Dispatch<ActivityActions>;
+  state: ActivityState; // Si necesitas el estado para algo más, puedes pasarlo aquí
 };
 
 const initialState: Activity = {
@@ -16,8 +20,18 @@ const initialState: Activity = {
   calories: 0, // Default to 0 calories
 };
 
-export default function Form({ dispatch }: FormProps) {
+export default function Form({ dispatch, state }: FormProps) {
   const [activity, setActivity] = useState<Activity>(initialState);
+
+  useEffect(() => {
+    if (state.activeId) {
+      const selectedActivity = state.activities.filter(
+        (stateActivity) => stateActivity.id === state.activeId
+      )[0];
+      setActivity(selectedActivity);
+    }
+  }, [state.activeId]);
+
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>

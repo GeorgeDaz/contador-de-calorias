@@ -3,12 +3,17 @@ import type { Activity } from "../types";
 import { categories } from "../data/categories";
 import { useMemo } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline"; // Import icons if needed
+import type { ActivityActions } from "../reducers/activity-reducer";
 
 type ActivityListProps = {
   activities: Activity[];
+  dispatch: React.Dispatch<ActivityActions>;
 };
 
-export default function ActivityList({ activities }: ActivityListProps) {
+export default function ActivityList({
+  activities,
+  dispatch,
+}: ActivityListProps) {
   // Función para obtener el nombre de la categoría
   const categoryName = useMemo(
     () => (category: Activity["category"]) =>
@@ -48,7 +53,14 @@ export default function ActivityList({ activities }: ActivityListProps) {
               </p>
             </div>
             <div className=" flex gap-5 items-center">
-              <button>
+              <button
+                onClick={() =>
+                  dispatch({
+                    type: "SET_ACTIVEID",
+                    payload: { id: activity.id },
+                  })
+                }
+              >
                 <PencilSquareIcon className=" h-8 w-8 text-gray-800" />
               </button>
             </div>
