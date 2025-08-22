@@ -1,10 +1,16 @@
 import Form from "./components/Form";
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import { initialState, activityReducer } from "./reducers/activity-reducer";
 import ActivityList from "./components/ActivityList";
 
 function App() {
   const [state, dispatch] = useReducer(activityReducer, initialState);
+
+  useEffect(() => {
+    // Aquí podrías cargar actividades desde una API o almacenamiento local si es necesario
+    // Por ahora, dejamos el estado inicial vacío
+    localStorage.setItem("activities", JSON.stringify(state.activities));
+  }, [state.activities]);
 
   return (
     <>
